@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nicole – IV Sedation Emergency Drill</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#f5f7f5;--white:#fff;--border:#e2ebe2;--border2:#c8dcc8;--text:#1a241a;--muted:#6b7a6b;--muted2:#9caa9c;--me:#16a34a;--me-soft:#f0fdf4;--me-border:#bbf7d0;--me-dark:#15803d;--doctor:#d97706;--melissa:#2563eb;--danger:#dc2626;--danger-soft:#fef2f2;--danger-border:#fecaca;--success:#16a34a;--shadow:0 1px 3px rgba(0,0,0,.08);--shadow-md:0 4px 6px rgba(0,0,0,.07)}
+  body{background:var(--bg);color:var(--text);font-family:'Source Sans 3',sans-serif;min-height:100vh;font-size:15px}
+  header{background:var(--white);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+  .hl{display:flex;align-items:center;gap:12px}
+  .pill{background:var(--me-soft);border:1.5px solid var(--me-border);color:var(--me);font-family:'Source Code Pro',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;padding:4px 11px;border-radius:20px;font-weight:500}
+  header h1{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600}
+  .ctr{font-family:'Source Code Pro',monospace;font-size:.68rem;color:var(--muted)}
+  .pb{height:3px;background:var(--border)}.pf{height:100%;background:var(--me);transition:width .5s}
+  .layout{display:grid;grid-template-columns:248px 1fr;min-height:calc(100vh - 63px)}
+  .sidebar{background:var(--white);border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;position:sticky;top:63px;height:calc(100vh - 63px)}
+  .slbl{font-family:'Source Code Pro',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted2);padding:0 18px 10px;font-weight:500}
+  .nb{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;padding:9px 18px;cursor:pointer;color:var(--muted);font-family:'Source Sans 3',sans-serif;font-size:.82rem;transition:all .15s;border-left:3px solid transparent}
+  .nb:hover{background:var(--me-soft);color:var(--text)}
+  .nb.active{background:var(--me-soft);color:var(--me);border-left-color:var(--me);font-weight:600}
+  .nb .num{font-family:'Source Code Pro',monospace;font-size:.62rem;min-width:20px;color:var(--muted2)}
+  .nb.active .num{color:var(--me)}
+  .nb.done .num::after{content:' ✓';color:var(--success)}
+  .content{padding:32px 36px;max-width:800px}
+  .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:68vh;text-align:center;gap:16px}
+  .av{width:76px;height:76px;border-radius:50%;background:var(--me-soft);border:2px solid var(--me-border);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin-bottom:4px}
+  .welcome h2{font-family:'Playfair Display',serif;font-size:2.1rem} .welcome h2 span{color:var(--me)}
+  .welcome p{color:var(--muted);font-size:.92rem;max-width:380px;line-height:1.75}
+  .rdesc{background:var(--me-soft);border:1.5px solid var(--me-border);border-radius:10px;padding:14px 18px;max-width:440px;text-align:left}
+  .rdesc p{font-size:.85rem;color:var(--text);line-height:1.7} .rdesc strong{color:var(--me)}
+  .sbtn{margin-top:8px;background:var(--me);color:#fff;border:none;padding:13px 30px;border-radius:8px;font-family:'Source Sans 3',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;box-shadow:var(--shadow-md)}
+  .sbtn:hover{background:var(--me-dark)}
+  .enum{font-family:'Source Code Pro',monospace;font-size:.62rem;color:var(--me);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px;font-weight:500}
+  .etitle{font-family:'Playfair Display',serif;font-size:2rem;line-height:1.15;margin-bottom:8px}
+  .esub{color:var(--muted);font-size:.87rem;line-height:1.65;margin-bottom:24px}
+  .sbox{background:var(--danger-soft);border:1px solid var(--danger-border);border-radius:10px;padding:14px 18px;margin-bottom:14px}
+  .blbl{font-family:'Source Code Pro',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:9px;font-weight:500}
+  .stags{display:flex;flex-wrap:wrap;gap:6px}
+  .stag{font-size:.76rem;padding:3px 11px;border-radius:20px;background:var(--white);border:1px solid var(--danger-border);color:var(--danger);font-weight:500}
+  .cbanner{display:flex;align-items:flex-start;gap:14px;background:var(--me-soft);border:1.5px solid var(--me-border);border-left:5px solid var(--me);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+  .cicon{font-size:1.6rem;flex-shrink:0}
+  .ctitle{font-size:.9rem;font-weight:700;color:var(--me);margin-bottom:4px}
+  .cwhen{font-size:.82rem;color:var(--muted);line-height:1.55}
+  .slabel{font-family:'Source Code Pro',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted2);margin-bottom:10px;margin-top:24px;font-weight:500}
+  .sc{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;border-radius:10px;margin-bottom:7px;border:1px solid var(--border);background:var(--white);animation:fu .22s ease both;box-shadow:var(--shadow)}
+  .sc.ms{border-color:var(--me-border);background:var(--me-soft);box-shadow:none}
+  @keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .sn{font-family:'Source Code Pro',monospace;font-size:.6rem;color:var(--muted2);min-width:18px;padding-top:3px}
+  .so{font-family:'Source Code Pro',monospace;font-size:.58rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:3px 9px;border-radius:5px;min-width:72px;text-align:center;flex-shrink:0}
+  .om{background:var(--me);color:#fff}
+  .od{background:#fef3c7;color:var(--doctor);border:1px solid #fde68a}
+  .oml{background:#eff6ff;color:var(--melissa);border:1px solid #bfdbfe}
+  .oa{background:#f3f4f6;color:#374151;border:1px solid #e5e7eb}
+  .st{font-size:.88rem;color:var(--text);line-height:1.6;flex:1}
+  .sc.ms .st{font-weight:500;color:#14532d}
+  .docbox{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--me);border-radius:10px;padding:16px 18px;margin-top:20px;box-shadow:var(--shadow);animation:fu .22s ease .1s both}
+  .docbox .blbl{color:var(--me)}
+  .di{display:flex;align-items:flex-start;gap:10px;font-size:.85rem;color:var(--text);padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer}
+  .di:last-child{border-bottom:none}
+  .di input[type=checkbox]{margin-top:2px;accent-color:var(--me);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+  .di label{cursor:pointer;line-height:1.5}
+  .di.chk label{text-decoration:line-through;color:var(--muted2)}
+  .medbox{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--doctor);border-radius:10px;padding:16px 18px;margin-top:14px;box-shadow:var(--shadow);animation:fu .22s ease .15s both}
+  .medbox .blbl{color:var(--doctor)}
+  .mrow{display:flex;gap:12px;font-size:.85rem;padding:6px 0;border-bottom:1px solid var(--border);align-items:baseline}
+  .mrow:last-child{border-bottom:none}
+  .mname{font-weight:700;min-width:160px;flex-shrink:0;color:var(--text)}
+  .mdose{color:var(--doctor);font-family:'Source Code Pro',monospace;font-size:.8rem}
+  .mnote{font-size:.76rem;color:var(--muted);display:block;margin-top:2px}
+  .fbox{background:var(--me-soft);border:1.5px solid var(--me-border);border-radius:10px;padding:16px 18px;margin-top:14px;animation:fu .22s ease .18s both}
+  .fbox .blbl{color:var(--me)}
+  .fl{list-style:none}
+  .fl li{font-size:.87rem;color:var(--text);padding:6px 0;border-bottom:1px solid var(--me-border);display:flex;gap:10px;line-height:1.55}
+  .fl li:last-child{border-bottom:none}
+  .fl li::before{content:"→";color:var(--me);font-weight:700;flex-shrink:0;padding-top:1px}
+  .nc{display:flex;gap:10px;margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+  .np,.nn{padding:10px 22px;border-radius:8px;font-family:'Source Sans 3',sans-serif;font-size:.86rem;font-weight:500;cursor:pointer;transition:all .18s;border:1.5px solid var(--border2)}
+  .np{background:var(--white);color:var(--muted)} .np:hover{border-color:var(--me);color:var(--me)}
+  .nn{background:var(--me);color:#fff;border-color:var(--me);margin-left:auto;font-weight:600;box-shadow:var(--shadow-md)} .nn:hover{background:var(--me-dark)}
+  @media(max-width:680px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}.content{padding:20px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hl"><span class="pill">Nicole · Medications & Documentation</span><h1>Emergency Drill</h1></div>
+  <span class="ctr" id="ctr">0 / 13</span>
+</header>
+<div class="pb"><div class="pf" id="pf" style="width:0%"></div></div>
+<div class="layout">
+  <nav class="sidebar"><div class="slbl">13 Emergencies</div><div id="nav"></div></nav>
+  <main class="content" id="main">
+    <div class="welcome">
+      <div class="av">📋</div>
+      <h2>Hi, <span>Nicole!</span></h2>
+      <p>Your role covers two critical functions — medications and documentation. Everything off the patient runs through you.</p>
+      <div class="rdesc"><p><strong>Your responsibilities:</strong> Drawing up and handing all medications to the doctor, maintaining a running timestamped log of every event, calling 911 when directed, retrieving and operating the AED, pulling emergency supplies, and preparing the EMS handoff report. Melissa handles all hands-on patient care.</p></div>
+      <button class="sbtn" onclick="show(1)">Start with Emergency #1</button>
+    </div>
+  </main>
+</div>
+<script>
+const E=[
+  {id:1,name:"Airway Obstruction",signs:["Stridor","Cyanosis","Paradoxical breathing","Decreased SpO₂","Distress"],
+   call911:"If no improvement within 60 seconds of initial airway intervention",
+   steps:[
+    {r:"doctor",t:"Stop procedure. Assess cause — tongue, foreign body, or secretions. Perform jaw thrust or head-tilt chin-lift."},
+    {r:"melissa",t:"Suctions airway immediately. Applies 100% O₂ via BVM. Maintains tight mask seal. Calls out SpO₂ every 30 seconds."},
+    {r:"me",t:"Pull emergency kit. Document exact time airway obstruction is recognized. Start your log now."},
+    {r:"doctor",t:"Insert OPA or NPA as indicated. Direct BVM ventilation."},
+    {r:"melissa",t:"Assists BVM ventilation on doctor's command. Watches for chest rise."},
+    {r:"me",t:"If no improvement in 60 seconds — CALL 911. Retrieve AED and bring to room."},
+    {r:"me",t:"Continue documenting all interventions with exact times. Prepare EMS report."},
+   ],
+   docs:["Time airway obstruction recognized","SpO₂ at recognition","OPA/NPA inserted — time","BVM ventilation started — time","911 call time (if applicable)","EMS arrival time"],
+   meds:[],
+   focus:["Your clock starts the second you hear or see a problem — write the time immediately","Document every SpO₂ Melissa calls out — the trend matters to EMS","AED: retrieve it, bring it to the room, set beside patient — do not apply unless arrest","EMS handoff: time of event, what was done, current SpO₂, airway status"]},
+
+  {id:2,name:"Bronchospasm",signs:["Wheezing","Chest tightness","Prolonged expiration","Decreased SpO₂","Accessory muscle use"],
+   call911:"Severe bronchospasm or no response to albuterol and epinephrine",
+   steps:[
+    {r:"doctor",t:"Identify bronchospasm. Stop inhalation agents. Position patient upright."},
+    {r:"melissa",t:"Sits patient upright. Applies 100% O₂ non-rebreather mask."},
+    {r:"me",t:"Pull albuterol MDI from emergency kit. Hand to doctor. Document onset time and SpO₂ readings as Melissa calls them out."},
+    {r:"melissa",t:"Monitors SpO₂ and breath sounds. Reports worsening."},
+    {r:"doctor",t:"Administer albuterol MDI 2–4 puffs. Repeat q20 min. Epinephrine 0.3 mg IM if no response."},
+    {r:"me",t:"Draw up epinephrine 0.3 mg (1:1000) in syringe. Hand to doctor if ordered. Document each drug dose and time given."},
+    {r:"me",t:"Call 911 if severe or worsening. Retrieve AED."},
+   ],
+   docs:["Onset time of bronchospasm","SpO₂ readings with timestamps","Albuterol: dose and time of each administration","Epinephrine: dose, route (IM), time (if given)","911 call time (if applicable)"],
+   meds:[{n:"Albuterol MDI",d:"2–4 puffs, repeat q20 min",note:"Pull from emergency kit, hand to doctor"},{n:"Epinephrine 1:1000",d:"0.3 mg IM outer thigh",note:"Draw up in syringe, hand to doctor if ordered"},{n:"Oxygen",d:"100% non-rebreather",note:"Melissa applies"}],
+   focus:["Pull albuterol MDI first — it's in the emergency kit","Draw up epi before being asked if bronchospasm is severe — be ready","Log every SpO₂ Melissa calls out — trend matters to EMS","Every drug gets a timestamp — not just 'we gave albuterol'"]},
+
+  {id:3,name:"Aspiration of Foreign Object",signs:["Sudden coughing","Choking","Stridor","Decreased unilateral breath sounds","Cyanosis"],
+   call911:"IMMEDIATELY — aspiration always requires EMS",
+   steps:[
+    {r:"doctor",t:"Stop all work. If conscious and coughing — encourage forceful coughing."},
+    {r:"melissa",t:"High-volume suction immediately. Positions patient head-down. Applies O₂. Monitors SpO₂."},
+    {r:"me",t:"CALL 911 IMMEDIATELY. State: 'Patient aspirated a foreign object.' Give exact address. Stay on line."},
+    {r:"me",t:"Document: exact time of aspiration, description of object aspirated, patient consciousness level, SpO₂."},
+    {r:"doctor",t:"If unconscious: BLS — back blows then abdominal thrusts."},
+    {r:"melissa",t:"BVM ventilation if unconscious. Continues suctioning between attempts."},
+    {r:"me",t:"Retrieve AED. Continue documenting all interventions. Prepare EMS handoff."},
+   ],
+   docs:["Exact time of aspiration","Description of object (size, material, shape — e.g. 'gold crown, approx 10mm')","Patient consciousness level at time of aspiration","SpO₂ at onset and trend","All interventions with times","911 call time","EMS arrival time"],
+   meds:[],
+   focus:["This is one of the automatic 911 calls — call immediately, don't wait for the doctor","When you call: give address first, then 'patient aspirated a foreign body, currently [conscious/unconscious]'","Object description is critical — tell EMS and document exactly what it was","Stay on the 911 line unless doctor needs you for something urgent"]},
+
+  {id:4,name:"Angina Pectoris",signs:["Chest pain/pressure","Radiation to arm or jaw","Diaphoresis","Shortness of breath","Pallor"],
+   call911:"After 3rd nitroglycerin dose with no relief, or if condition deteriorates",
+   steps:[
+    {r:"doctor",t:"Stop procedure. Position semi-reclined. Assess pain."},
+    {r:"melissa",t:"Applies O₂ nasal cannula 4 L/min. Loosens clothing. Takes BP — calls out reading."},
+    {r:"me",t:"Document onset time and pain description. Draw up nitroglycerin 0.4 mg. Hand to doctor when ordered."},
+    {r:"melissa",t:"Takes and calls out BP before EACH nitro dose."},
+    {r:"doctor",t:"Nitroglycerin 0.4 mg SL if BP ≥ 90. Repeat q5 min × 3. Aspirin 325 mg chewed."},
+    {r:"me",t:"Hand aspirin to patient/doctor when ordered. Draw up next nitro dose. Document each BP reading and each nitro dose with exact timestamp."},
+    {r:"me",t:"After 3rd nitro with no relief or worsening — CALL 911. Retrieve AED."},
+   ],
+   docs:["Pain onset time and description","BP before Dose 1 — time","Nitro Dose 1 — time given","BP before Dose 2 — time","Nitro Dose 2 — time given","BP before Dose 3 — time","Nitro Dose 3 — time given","Patient's pain response after each dose","Aspirin: dose and time (if given)","911 call time (if applicable)"],
+   meds:[{n:"Nitroglycerin",d:"0.4 mg SL, q5 min × 3",note:"Only if BP ≥ 90 — draw up and hand to doctor"},{n:"Aspirin",d:"325 mg chewed",note:"Hand to patient when doctor orders"},{n:"Oxygen",d:"4 L/min nasal cannula",note:"Melissa applies"}],
+   focus:["Three nitro doses = three BP readings = three timestamps — log all of them","Draw up the next nitro dose while the previous one is working — be ready","If pain persists after 3rd dose: call 911 before being asked","EMS needs: how many nitro doses, BP at each, and current pain level"]},
+
+  {id:5,name:"Myocardial Infarction",signs:["Crushing chest pain >15 min","Radiation to jaw/left arm","Diaphoresis","Nausea","Extreme anxiety","Pallor"],
+   call911:"IMMEDIATELY — first action before any drug",
+   steps:[
+    {r:"doctor",t:"Diagnose MI. Direct Nicole to call 911."},
+    {r:"me",t:"CALL 911 IMMEDIATELY — this is the FIRST action. 'Possible heart attack, patient conscious.' Give address. Stay on line."},
+    {r:"melissa",t:"Applies 100% O₂ non-rebreather. Keeps patient semi-reclined. Confirms IV line open."},
+    {r:"me",t:"Retrieve AED — place NEXT to patient. Pads out, ready. Do NOT apply unless arrest."},
+    {r:"me",t:"Draw up aspirin, nitroglycerin, and pain medications. Hand to doctor in the sequence ordered."},
+    {r:"doctor",t:"Aspirin 325 mg chewed. Nitroglycerin if BP ≥ 90. Pain management as needed."},
+    {r:"melissa",t:"Vitals every 2 minutes — calls out every number."},
+    {r:"me",t:"Document EVERYTHING: 911 call time, onset time, every vital sign, every drug with dose and time given."},
+   ],
+   docs:["911 call time — log this first","Symptom onset time","O₂ applied — time","Aspirin: dose and time","BP q2 min — log every reading Melissa calls","HR and SpO₂ q2 min","Nitroglycerin: dose and time (if given)","Pain medication: drug, dose, time","AED retrieved and placed — time","EMS arrival time"],
+   meds:[{n:"Aspirin",d:"325 mg chewed",note:"Hand to patient — first drug after 911"},{n:"Nitroglycerin",d:"0.4 mg SL if BP ≥ 90",note:"Draw up, hand to doctor"},{n:"Morphine / Fentanyl",d:"Per physician order",note:"Draw up when ordered, hand to doctor"},{n:"Oxygen",d:"100% non-rebreather",note:"Melissa applies"}],
+   focus:["Call 911 FIRST — before any drug, before anything else — pick up the phone immediately","After 911: retrieve AED and bring to room, then start drawing medications","AED goes next to patient, pads out, ready — do NOT apply unless there is no pulse","Announce every drug out loud as you hand it: 'Aspirin 325 mg, 10:14 AM' — then document it"]},
+
+  {id:6,name:"Hypotension",signs:["Systolic BP < 90 mmHg","Dizziness","Lightheadedness","Pale/cool skin","Weak pulse","Nausea"],
+   call911:"BP remains < 90 after IV fluid bolus and vasopressor",
+   steps:[
+    {r:"melissa",t:"Recognizes low BP. Calls it out. Places patient in Trendelenburg immediately."},
+    {r:"doctor",t:"Stops sedation. Assesses cause."},
+    {r:"melissa",t:"Opens IV wide — 500 mL NS bolus on doctor's order. Applies O₂."},
+    {r:"me",t:"Draw up reversal agents as ordered: naloxone (opioid) or flumazenil (benzo). Hand to doctor."},
+    {r:"melissa",t:"Rechecks BP every 2–3 min. Calls out readings."},
+    {r:"me",t:"Document: initial low BP with time, each BP reading Melissa calls out, sedation drugs given earlier with times."},
+    {r:"doctor",t:"If fluids fail: ephedrine 5–10 mg IV or phenylephrine 50–100 mcg IV."},
+    {r:"me",t:"Draw up vasopressor as ordered. Hand to doctor. Call 911 if BP < 90 after fluids + vasopressor. Retrieve AED."},
+   ],
+   docs:["Initial low BP reading + exact time","Trendelenburg applied — time","IV fluid bolus started — time and amount","BP q2–3 min — log every reading","Last sedation drug given (name, dose, time)","Reversal agent given (name, dose, route, time) — if applicable","Vasopressor given (name, dose, time) — if applicable","911 call time (if applicable)"],
+   meds:[{n:"Naloxone",d:"0.04–0.4 mg IV, titrate",note:"For opioid reversal — draw up, hand to doctor"},{n:"Flumazenil",d:"0.2 mg IV q1 min, max 1 mg",note:"For benzo reversal — draw up, hand to doctor"},{n:"Ephedrine",d:"5–10 mg IV",note:"Draw up, hand to doctor if fluids fail"},{n:"Normal Saline",d:"500 mL IV bolus",note:"Melissa opens IV wide on doctor's order"}],
+   focus:["Draw up reversal agents before being asked if over-sedation is suspected — be ready","Log the sedation drug history — doctor and EMS need to know what was given and when","BP trend is critical — write every single reading Melissa calls out","Know both reversal agents: naloxone (opioids) vs. flumazenil (benzos)"]},
+
+  {id:7,name:"Hypertension",signs:["BP > 160/100","Headache","Facial flushing","Visual changes","Nausea","Epistaxis"],
+   call911:"BP > 180/120 with neurological or cardiac symptoms",
+   steps:[
+    {r:"melissa",t:"Reports elevated BP. Rechecks opposite arm. Keeps patient calm."},
+    {r:"doctor",t:"Assesses severity. Mild/moderate: monitor. Emergency (> 180/120 with symptoms): treat."},
+    {r:"melissa",t:"Applies O₂ nasal cannula. Monitors BP every 5 min. Reports neuro changes immediately."},
+    {r:"me",t:"Pull baseline BP from patient chart. Document initial elevated reading, which arm, and all subsequent readings with times."},
+    {r:"doctor",t:"Labetalol 20 mg IV or hydralazine 10–20 mg IV if hypertensive emergency."},
+    {r:"me",t:"Draw up antihypertensive as ordered. Hand to doctor. Document drug, dose, and time given."},
+    {r:"me",t:"If BP > 180/120 with symptoms or stroke signs — CALL 911. Retrieve AED."},
+   ],
+   docs:["Baseline BP from patient chart","Initial elevated BP reading — time and which arm","Opposite arm recheck — value and time","All subsequent BP readings with times (q5 min)","Any neurological symptoms noted","Antihypertensive given (name, dose, time)","911 call time (if applicable)"],
+   meds:[{n:"Labetalol",d:"20 mg IV over 2 min",note:"Draw up, hand to doctor — first-line for emergency"},{n:"Hydralazine",d:"10–20 mg IV",note:"Draw up, hand to doctor — alternative"},{n:"Oxygen",d:"2–4 L/min nasal cannula",note:"Melissa applies"}],
+   focus:["Pull baseline BP from chart first — EMS will want the comparison","Log both arms if Melissa rechecks — note which arm for each reading","Know the threshold: > 180/120 WITH symptoms = call 911. Without symptoms = monitor","Draw up antihypertensive while doctor is assessing — be ready to hand it"]},
+
+  {id:8,name:"Cardiac Arrest",signs:["No pulse","No respirations","Unresponsive","Sudden collapse"],
+   call911:"IMMEDIATELY — simultaneously with CPR start",
+   steps:[
+    {r:"all",t:"Recognize arrest: tap shoulders, shout name. Confirm no pulse — max 10 seconds."},
+    {r:"me",t:"CALL 911 IMMEDIATELY. 'Cardiac arrest in progress, CPR being performed.' Give address. Stay on line."},
+    {r:"me",t:"RETRIEVE AED — power on, bring to patient, apply pads: right clavicle, left lateral chest."},
+    {r:"doctor",t:"Begins chest compressions — 100–120/min, 2 inch depth, full recoil."},
+    {r:"melissa",t:"Opens airway. Inserts OPA/NPA. BVM ventilation 30:2."},
+    {r:"me",t:"Announce CLEAR before every AED analysis. Deliver shock if advised. Resume logging immediately."},
+    {r:"me",t:"Draw up epinephrine 1 mg IV. Push when ordered or hand to doctor. Repeat q3–5 min."},
+    {r:"me",t:"Call compressor rotation every 2 minutes. Log every event: arrest time, each shock, each epi dose, each rotation."},
+   ],
+   docs:["Time of arrest recognition","911 call time","CPR start time","AED pads applied — time","Shock #1 — time and advised/not advised","Shock #2, #3 (if multiple) — each with time","Epi Dose 1 — time","Epi Dose 2 — time (q3–5 min)","Each rhythm check — time","Compressor rotation log","ROSC time (if achieved)","EMS arrival time"],
+   meds:[{n:"Epinephrine 1:10,000",d:"1 mg IV q3–5 min",note:"Draw up, push IV or hand to doctor when ordered"},{n:"Amiodarone",d:"300 mg IV for pulseless VT/VF",note:"Only if shockable rhythm — draw up if AED advises shock"}],
+   focus:["Call 911 FIRST — then get AED — both before anything else","AED pad placement: right clavicle, left lateral chest — shout CLEAR before every analysis","Compressor rotation every 2 min — YOU call the time: 'Switch in 3… 2… 1… switch!'","Draw up epi and keep it ready — push 1 mg IV q3–5 min when ordered"]},
+
+  {id:9,name:"Allergic / Anaphylactic Reaction",signs:["Urticaria/hives","Angioedema","Wheezing","Hypotension","Tachycardia","Stridor"],
+   call911:"Any sign of anaphylaxis — airway compromise, hypotension, or severe symptoms",
+   steps:[
+    {r:"doctor",t:"Identify reaction: mild (urticaria only) vs. anaphylaxis (airway + hypotension)."},
+    {r:"melissa",t:"Applies 100% O₂ non-rebreather. Positions supine with legs elevated. Monitors SpO₂ and BP."},
+    {r:"me",t:"Draw up epinephrine 0.3 mg (1:1000) in syringe immediately. Hand to doctor — this is first-line, do not delay."},
+    {r:"me",t:"CALL 911 for anaphylaxis — do not wait for improvement. Retrieve AED."},
+    {r:"doctor",t:"Administer epinephrine 0.3 mg IM outer thigh. Repeat q5–15 min PRN."},
+    {r:"melissa",t:"Monitors airway — stridor or tongue/lip swelling = alerts doctor immediately. Keeps IV running wide."},
+    {r:"me",t:"Draw up diphenhydramine 50 mg IV and methylprednisolone 125 mg IV. Hand to doctor in sequence."},
+    {r:"me",t:"Document: suspected allergen, onset time, every drug with dose, route, and time. Prepare EMS handoff."},
+   ],
+   docs:["Suspected allergen (what drug or substance was given/exposed to)","Onset time of reaction","Epinephrine Dose 1 — time and route (IM outer thigh)","Epinephrine Dose 2 — time (q5–15 min if repeated)","911 call time","Diphenhydramine: dose and time","Methylprednisolone: dose and time","BP and SpO₂ readings with times","Airway status at each check"],
+   meds:[{n:"Epinephrine 1:1000",d:"0.3 mg IM outer thigh, q5–15 min",note:"Draw up immediately, hand to doctor — FIRST LINE"},{n:"Diphenhydramine",d:"50 mg IV slowly",note:"Draw up and hand to doctor after epi"},{n:"Methylprednisolone",d:"125 mg IV",note:"Draw up and hand to doctor"},{n:"Normal Saline",d:"1–2 L IV bolus",note:"Melissa opens IV wide; you document volume"}],
+   focus:["Draw up epi IMMEDIATELY — before being asked — hand it to doctor the moment anaphylaxis is called","Call 911 for anaphylaxis before waiting to see if epi works — don't delay","Document the suspected allergen — EMS and the incident report need this","Announce every drug as you hand it: 'Epi 0.3 mg IM, 10:22 AM' — document immediately"]},
+
+  {id:10,name:"Convulsions",signs:["Tonic-clonic movements","Loss of consciousness","Post-ictal confusion","Apnea during seizure","Incontinence"],
+   call911:"Seizure > 5 minutes, second seizure, or no post-ictal recovery",
+   steps:[
+    {r:"doctor",t:"Recognize seizure. Call time out loud. Recline chair fully."},
+    {r:"melissa",t:"Clears instruments and sharps from reach. Turns patient lateral. Protects head. Does NOT restrain."},
+    {r:"me",t:"START TIMING the seizure from the first movement. Write down exact onset time immediately."},
+    {r:"melissa",t:"Applies O₂ face mask. Monitors SpO₂. Suctions if secretions appear."},
+    {r:"doctor",t:"If > 5 min: midazolam 5 mg IM or diazepam 5–10 mg IV."},
+    {r:"me",t:"Draw up midazolam 5 mg IM or diazepam as ordered. Hand to doctor."},
+    {r:"me",t:"If seizure exceeds 5 min — CALL 911. Retrieve AED."},
+    {r:"me",t:"Document: onset time, duration, description of movements, medications given with times, recovery time."},
+   ],
+   docs:["Seizure onset time (exact)","Seizure duration (still timing until it stops)","Description of movements (generalized tonic-clonic / focal / arms only, etc.)","Medications given (midazolam or diazepam — drug, dose, route, time)","911 call time (if applicable)","Time seizure stopped","Post-ictal recovery time","Vitals during post-ictal"],
+   meds:[{n:"Midazolam",d:"5 mg IM",note:"For status epilepticus (> 5 min) — draw up, hand to doctor"},{n:"Diazepam",d:"5–10 mg IV slowly",note:"Alternative if IV accessible — draw up, hand to doctor"},{n:"Oxygen",d:"100% face mask",note:"Melissa applies"}],
+   focus:["Your most important job at seizure onset: START THE CLOCK — write the exact time immediately","5-minute threshold: if it hits 5 min, call 911 and have midazolam drawn up","Describe movements specifically: 'generalized tonic-clonic' vs 'arms shaking, legs stiff'","Post-ictal = confused and slow — note exactly when they return to their baseline"]},
+
+  {id:11,name:"Hypoglycemia",signs:["Altered mental status","Diaphoresis","Tremors","Confusion","Pale/clammy","Tachycardia"],
+   call911:"Unconscious patient or no response to oral/IV glucose",
+   steps:[
+    {r:"melissa",t:"Recognizes signs. Alerts doctor. Checks blood glucose — calls out value."},
+    {r:"doctor",t:"Confirms hypoglycemia (< 70 mg/dL or symptomatic). Assesses consciousness."},
+    {r:"melissa",t:"If conscious: assists patient with oral glucose. Monitors response. Rechecks glucose in 15 min."},
+    {r:"me",t:"Draw up D50W 25 g (50 mL) IV or glucagon 1 mg IM for unconscious patient. Hand to doctor when ordered."},
+    {r:"me",t:"Document: initial glucose reading and time, last meal, insulin history, treatment given and time."},
+    {r:"me",t:"If unconscious or no response — CALL 911. Retrieve AED."},
+    {r:"me",t:"Document recheck glucose value and time. Note recovery time."},
+   ],
+   docs:["Initial glucose reading and time","Patient's last meal (ask and document)","Insulin or diabetes medications (ask and document)","Treatment given (oral glucose, D50W, or glucagon) — dose and time","Glucose recheck value and time (15 min after treatment)","911 call time (if applicable)","Recovery time to baseline orientation"],
+   meds:[{n:"D50W (Dextrose 50%)",d:"25 g (50 mL) IV push",note:"Draw up, push IV or hand to doctor — for unconscious patients"},{n:"Glucagon",d:"1 mg IM",note:"Draw up, hand to doctor — if no IV access"}],
+   focus:["Ask about last meal and insulin — write it down, EMS will ask","Draw up D50W while doctor is assessing — be ready before being asked","15-15 rule timing: oral glucose at time X → recheck at X + 15 min — log both","Unconscious = D50W IV or glucagon IM — no oral glucose"]},
+
+  {id:12,name:"Syncope",signs:["Sudden LOC","Pale/diaphoretic","Weak pulse","Preceded by dizziness/nausea","Rapid recovery"],
+   call911:"No recovery within 3 minutes, loss of pulse, or severely abnormal vitals",
+   steps:[
+    {r:"melissa",t:"Recognizes pre-syncope (pallor, diaphoresis, dizziness). Alerts doctor."},
+    {r:"doctor",t:"Lowers chair to supine. Orders Trendelenburg."},
+    {r:"melissa",t:"Physically places patient in Trendelenburg. Applies O₂. Cool cloth to forehead. Vitals every 1 min."},
+    {r:"me",t:"Document: onset time, precipitating event, BP and HR at onset, Trendelenburg time, vitals q1 min."},
+    {r:"doctor",t:"Expects recovery in 1–3 min. Assesses for other cause if prolonged."},
+    {r:"melissa",t:"Monitors pulse and breathing continuously. Keeps patient in Trendelenburg."},
+    {r:"me",t:"If no recovery by 3 minutes — CALL 911. Retrieve AED."},
+    {r:"all",t:"If no pulse — this is NOT syncope. Begin CPR and attach AED immediately."},
+   ],
+   docs:["Syncope onset time","Precipitating event (anxiety, pain, blood, standing too fast, position change)","BP and HR at onset","Trendelenburg applied — time","Vitals every 1 min until recovery","Recovery time (when patient regains consciousness)","Time to full orientation baseline"],
+   meds:[{n:"Oxygen",d:"4 L/min nasal cannula",note:"Melissa applies"},{n:"Ammonia ampule",d:"Wave under nose",note:"Pull from kit, wave under nose if unresponsive to positioning"}],
+   focus:["Document what triggered it — inspector may ask about precipitating factors","Normal syncope recovers in 1–3 minutes — if not, tell doctor and be ready to call 911","Your 3-minute clock: if no recovery by 3 min — call 911","Always confirm pulse: syncope has a pulse, cardiac arrest does not"]},
+
+  {id:13,name:"Respiratory Depression / Apnea",signs:["RR < 8/min","Shallow breathing","SpO₂ falling","Cyanosis","Unresponsive","Snoring or apnea"],
+   call911:"Apnea unresponsive to reversal agents or SpO₂ cannot be maintained > 90%",
+   steps:[
+    {r:"melissa",t:"Monitors RR and SpO₂. Alerts doctor at RR < 10 or SpO₂ < 94%. Calls out readings every 30 seconds."},
+    {r:"doctor",t:"Stops sedation. Stimulates patient. Identifies drug class responsible."},
+    {r:"melissa",t:"Applies 100% O₂ non-rebreather. Repositions airway. Inserts OPA/NPA. Prepares BVM."},
+    {r:"me",t:"Draw up reversal agent: naloxone (opioid) OR flumazenil (benzo) based on sedation given. Hand to doctor immediately."},
+    {r:"doctor",t:"Naloxone 0.04–0.4 mg IV titrated OR flumazenil 0.2 mg IV q1 min max 1 mg."},
+    {r:"me",t:"Document: all sedation drugs given during procedure (names, doses, times), SpO₂ trend, reversal agent name, dose, and time."},
+    {r:"melissa",t:"If no improvement: BVM-assisted ventilation at 10–12 breaths/min on doctor's order."},
+    {r:"me",t:"If apnea unresponsive to reversal — CALL 911. Retrieve AED."},
+   ],
+   docs:["All sedation drugs given during the procedure (names, doses, times given)","SpO₂ readings with timestamps — every 30 sec from onset","RR readings with timestamps","Reversal agent: drug name, dose, route, time of each dose","SpO₂ response after each reversal dose","BVM ventilation started — time (if initiated)","911 call time (if applicable)"],
+   meds:[{n:"Naloxone",d:"0.04–0.4 mg IV, titrate slowly",note:"For OPIOID reversal — draw up, hand to doctor"},{n:"Flumazenil",d:"0.2 mg IV q1 min, max 1 mg",note:"For BENZO reversal — draw up, hand to doctor"},{n:"Oxygen",d:"100% non-rebreather or BVM",note:"Melissa applies and manages"}],
+   focus:["This is the most expected IV sedation emergency — know it cold","Two reversal agents: naloxone (opioids) vs. flumazenil (benzos) — draw up the correct one","Sedation log is your foundation — have drug names, doses, and administration times ready","Document SpO₂ response after each reversal dose — EMS needs to see the trend"]}
+];
+
+const oL=r=>r==='me'?'Nicole':r==='doctor'?'Doctor':r==='melissa'?'Melissa':'All Three';
+const oC=r=>r==='me'?'om':r==='doctor'?'od':r==='melissa'?'oml':'oa';
+let visited=new Set(),checks={};
+
+function rNav(){document.getElementById('nav').innerHTML=E.map(e=>`<button class="nb ${visited.has(e.id)?'done':''}" id="nb${e.id}" onclick="show(${e.id})"><span class="num">${e.id}.</span><span>${e.name}</span></button>`).join('')}
+
+function show(id){
+  const e=E.find(x=>x.id===id);visited.add(id);if(!checks[id])checks[id]={};rNav();
+  document.getElementById('pf').style.width=(visited.size/13*100)+'%';
+  document.getElementById('ctr').textContent=visited.size+' / 13';
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nb'+id).classList.add('active');
+  const steps=e.steps.map((s,i)=>`<div class="sc ${s.r==='me'?'ms':''}" style="animation-delay:${i*.04}s"><span class="sn">${i+1}</span><span class="so ${oC(s.r)}">${oL(s.r)}</span><div class="st">${s.t}</div></div>`).join('');
+  const docItems=e.docs.map((d,i)=>`<div class="di ${checks[id][i]?'chk':''}" id="di${id}-${i}"><input type="checkbox" id="cb${id}-${i}" ${checks[id][i]?'checked':''} onchange="tgl(${id},${i})"><label for="cb${id}-${i}">${d}</label></div>`).join('');
+  const meds=e.meds.length?`<div class="medbox"><div class="blbl">💊 Nicole's Medications — Draw Up & Hand to Doctor</div>${e.meds.map(m=>`<div class="mrow"><div><span class="mname">${m.n}</span><span class="mdose">${m.d}</span><span class="mnote">${m.note}</span></div></div>`).join('')}</div>`:'';
+  const focus=`<div class="fbox"><div class="blbl">📋 Nicole — Key Reminders</div><ul class="fl">${e.focus.map(f=>`<li>${f}</li>`).join('')}</ul></div>`;
+  const p=id>1?id-1:null,n=id<13?id+1:null;
+  document.getElementById('main').innerHTML=`
+    <div class="enum">Emergency ${id} of 13</div>
+    <div class="etitle">${e.name}</div>
+    <div class="esub">Your steps are highlighted in green — medications, documentation, 911, and AED.</div>
+    <div class="sbox"><div class="blbl" style="color:var(--danger)">🔴 Recognize It</div><div class="stags">${e.signs.map(s=>`<span class="stag">${s}</span>`).join('')}</div></div>
+    <div class="cbanner"><span class="cicon">📞</span><div><div class="ctitle">Nicole calls 911</div><div class="cwhen">${e.call911}</div></div></div>
+    <div class="slabel">Full Team Response — Nicole's steps highlighted</div>
+    ${steps}
+    <div class="docbox"><div class="blbl">📋 What to Document — Check off as you practice</div>${docItems}</div>
+    ${meds}${focus}
+    <div class="nc">
+      ${p?`<button class="np" onclick="show(${p})">← #${p} ${E[p-1].name}</button>`:'<span></span>'}
+      ${n?`<button class="nn" onclick="show(${n})">#${n} ${E[n].name} →</button>`:`<button class="nn" style="background:var(--me-dark)" onclick="done()">✓ All Done!</button>`}
+    </div>`;
+  window.scrollTo(0,0);
+}
+function tgl(eid,idx){const cb=document.getElementById(`cb${eid}-${idx}`);checks[eid][idx]=cb.checked;document.getElementById(`di${eid}-${idx}`).classList.toggle('chk',cb.checked)}
+function done(){document.getElementById('main').innerHTML=`<div class="welcome"><div class="av">🎉</div><h2>You're <span>Ready!</span></h2><p>All 13 reviewed. You handle every medication and every timestamp. Melissa has the hands, you have the meds and the log. You've got this Friday!</p><button class="sbtn" onclick="show(1)">Review Again from #1</button></div>`}
+rNav();
+</script>
+</body>
+</html>
